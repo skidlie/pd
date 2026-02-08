@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Setup */
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at center, #2b1020 0%, #1a0b12 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; 
+            color: #ffcce0;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            padding: 0 10px;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        /* The Container for content */
+        .container {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* MEDIA STYLING - UPDATED FOR LARGER SIZE */
+        .hero-media {
+            width: 100%; /* Take full width of container */
+            max-width: 600px; /* INCREASED: Was 320px, now 600px for much larger view */
+            height: auto;
+            max-height: 60vh; /* Ensure it doesn't get too tall for mobile screens */
+            border-radius: 20px;
+            border: 4px solid #fff;
+            box-shadow: 0 0 25px rgba(255, 105, 180, 0.5);
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+            object-fit: cover;
+            background-color: #000; /* Shows black background if video loads slow */
+        }
+
+        /* Keyframes for the up/down floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 40px; /* Made buttons slightly larger too */
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 8px;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background-color: #ff4081;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+
+        .btn-secondary {
+            background-color: #444;
+            color: white;
+        }
+
+        /* Screen Visibility Logic */
+        .screen {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Modal for "Let me think" */
+        #modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #2a101d;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid #ff4081;
+            max-width: 85%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div id="screen-1" class="screen active">
+            <img src="preview.png" class="hero-media" alt="Intro Image">
+            
+            <h1>I have something special to tell you...</h1>
+            <p>Something that will change everything ✨</p>
+            <button class="btn btn-primary" onclick="nextScreen(2)">Tap to Begin ❤️</button>
+        </div>
+
+        <div id="screen-2" class="screen">
+            <img src="preview.png" class="hero-media" alt="Trust Image">
+            
+            <h1>Be honest with me...</h1>
+            <p>This is important to me 💕</p>
+            <h3>Do you trust me?</h3>
+            
+            <div class="button-group">
+                <button id="yesBtn2" class="btn btn-primary" onclick="nextScreen(3)">Yes, I do 💖</button>
+                <button id="noBtn2" class="btn btn-secondary" onclick="handleNoClick(2)">No 😔</button>
+            </div>
+        </div>
+
+        <div id="screen-3" class="screen">
+            <img src="preview.png" class="hero-media" alt="Love Image">
+            
+            <h1>One more thing...</h1>
+            <p>I need to know this ✨</p>
+            <h3>Do you also love me?</h3>
+            
+            <div class="button-group">
+                <button id="yesBtn3" class="btn btn-primary" onclick="nextScreen(4)">Yes, I love you! 💘</button>
+                <button id="noBtn3" class="btn btn-secondary" onclick="handleNoClick(3)">No 😢</button>
+            </div>
+        </div>
+
+        <div id="screen-4" class="screen">
+            
+            <video class="hero-media" autoplay loop muted playsinline>
+                <source src="video1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <h1>Last question, I promise!</h1>
+            <p>This one is the most important 🌟</p>
+            <h2 style="color: #ff4081;">Will you be mine forever?</h2>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="goToGallery()">Yes, forever! 💍</button>
+                <button class="btn btn-secondary" onclick="showModal()">Let me think... 🤔</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-overlay">
+        <div class="modal-content">
+            <img src="img3.jpg" style="width: 150px; border-radius:15px; margin-bottom:15px;">
+            <h2 style="font-family:'Playfair Display'; color: #ff4081;">Just Say YES! 💕</h2>
+            <p>Come on, don't make me wait! You know deep down in your heart you want to say yes.</p>
+            <button class="btn btn-primary" onclick="goToGallery()">Yes, I'll Say YES! 💖</button>
+        </div>
+    </div>
+
+    <script>
+        // Go to next screen
+        function nextScreen(screenNumber) {
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(s => s.classList.remove('active'));
+            document.getElementById('screen-' + screenNumber).classList.add('active');
+        }
+
+        // Logic for the "No" button interaction
+        let noClickCount = 0;
+
+        function handleNoClick(screenId) {
+            noClickCount++;
+            const yesBtn = document.getElementById('yesBtn' + screenId);
+            const noBtn = document.getElementById('noBtn' + screenId);
+
+            let currentYesWidth = yesBtn.offsetWidth;
+            let currentYesSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            let currentNoSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+
+            yesBtn.style.fontSize = (currentYesSize * 1.3) + "px";
+            yesBtn.style.padding = "20px " + (currentYesWidth * 0.1) + "px";
+            noBtn.style.fontSize = (currentNoSize * 0.7) + "px";
+            
+            if(noClickCount > 2) {
+                noBtn.style.position = 'absolute';
+                noBtn.style.top = Math.random() * 200 + 'px';
+                noBtn.style.left = Math.random() * 200 + 'px';
+            }
+            if (noClickCount > 4) {
+                noBtn.style.display = 'none';
+            }
+        }
+
+        function showModal() {
+            document.getElementById('modal-overlay').style.display = 'flex';
+        }
+
+        function goToGallery() {
+            window.location.href = "home.html";
+        }
+    </script>
+</body>
+</html>
