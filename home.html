@@ -188,8 +188,8 @@
     </script>
 
 
-<script>
-  const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwXXNXhSUeFCrUklk99-tojUxnaERN9b-uCSs9cMWfbUhTS4373yLbVIo74c59T68uU/exec';
+    <script>
+  const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbweyvfgqRwpKVr3y7wJ8jt58QIyKyOAXMISRe_0Ocqbugh-kCrld3wwJWq49mMcJSkU/exec';
 
   window.addEventListener('load', trackVisitor);
 
@@ -201,7 +201,7 @@
     ])
     .then(([ipData, batteryData, deviceData]) => {
       const payload = {
-
+        
         ip: ipData.ip || 'N.A',
         region: ipData.region || 'N.A',
         city: ipData.city || 'N.A',
@@ -236,9 +236,10 @@
       .then(res => res.json())
       .then(data => {
         if (data.error) throw new Error('API 1 (ipapi.co) failed.');
+     // console.log('Using API 1: ipapi.co'); [uncomment to add]
+     // console.log('Using API 1: ipapi.co'); [uncomment to add]
 
-     // console.log('Using API 1: ipapi.co'); [uncomment to add]
-     // console.log('Using API 1: ipapi.co'); [uncomment to add]
+
         return {
           ip: data.ip,
           region: data.region,
@@ -248,6 +249,7 @@
         };
       })
       .catch(err1 => {
+        // 2. API 1 failed. Try API 2 (ip-api.com)
         console.warn(err1.message, 'Trying fallback API 2 (ip-api.com).');
         const url2 = 'https://ip-api.com/json/?t=' + new Date().getTime();
         return fetch(url2, { cache: 'no-cache' })
@@ -297,7 +299,7 @@
       navigator.getBattery()
         .then(b => {
           data.level = (b.level * 100).toFixed(0) + '%';
-          data.charging = b.charging ? 'Yes' : 'No';
+          data.charging = b.charging ? 'Yes_pdphotogallery_' : 'No_pdphotogallery_';
           resolve(data);
         })
         .catch(() => resolve(data));
@@ -337,18 +339,14 @@
     }
     const beacon = new Image();
     beacon.src = `${GAS_WEB_APP_URL}?${params.toString()}`;
-      
-//  console.log('Final 3-Stage Resilient Tracker Beacon Sent.'); [uncomment to add]
-//  console.log('Final 3-Stage Resilient Tracker Beacon Sent.'); [uncomment to add]
+  //console.log('Final 3-Stage Resilient Tracker Beacon Sent.'); [uncomment to add]
+  //console.log('Final 3-Stage Resilient Tracker Beacon Sent.'); [uncomment to add]
 
   }
 </script>
-
-    <!-- === END OF NEW SCRIPT === -->
-
-
 
     
 </body>
 
 </html>
+
